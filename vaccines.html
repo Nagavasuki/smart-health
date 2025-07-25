@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Vaccines - Smart Health Companion</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .vaccine-result {
+      margin-top: 20px;
+      color: #004080;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Vaccine Recommendation</h1>
+
+    <label for="age">Enter your age:</label><br />
+    <input type="number" id="age" placeholder="e.g. 25" />
+    <button onclick="recommendVaccines()">Get Recommendations</button>
+
+    <div id="vaccine-result" class="vaccine-result"></div>
+  </div>
+
+  <script>
+    function recommendVaccines() {
+      const age = parseInt(document.getElementById('age').value);
+      const result = document.getElementById('vaccine-result');
+
+      if (!age || age <= 0) {
+        result.innerHTML = "<p style='color:red;'>Please enter a valid age.</p>";
+        return;
+      }
+
+      let suggestions = '';
+      if (age <= 12) {
+        suggestions = 'Polio, Hepatitis B, MMR';
+      } else if (age <= 18) {
+        suggestions = 'HPV, Tdap Booster, Influenza';
+      } else if (age <= 60) {
+        suggestions = 'COVID Booster, Hepatitis B, Typhoid';
+      } else {
+        suggestions = 'Shingles, Pneumococcal, COVID Booster';
+      }
+
+      result.innerHTML = `<p>Recommended vaccines for age ${age}:<br><strong>${suggestions}</strong></p>`;
+    }
+  </script>
+</body>
+</html>

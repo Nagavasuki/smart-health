@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medicines - Smart Health Companion</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .result-box {
+      margin-top: 20px;
+      font-size: 1rem;
+      color: #004080;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Medicine Finder</h1>
+    
+    <label for="medicine-type">What type of medicine do you want?</label><br />
+    <input type="text" id="medicine-type" placeholder="e.g., fever, cold, etc." />
+    <button onclick="findMedicine()">Find Medicine</button>
+
+    <div id="medicine-result" class="result-box"></div>
+  </div>
+
+  <script>
+    function findMedicine() {
+      const input = document.getElementById("medicine-type").value.toLowerCase();
+      const output = document.getElementById("medicine-result");
+
+      if (!input) {
+        output.innerHTML = "<p style='color:red;'>Please enter a medicine type.</p>";
+        return;
+      }
+
+      if (input.includes("fever")) {
+        output.innerHTML = `
+          <p><strong>Branded:</strong> Crocin 650</p>
+          <p><strong>Generic:</strong> Paracetamol 650</p>
+        `;
+      } else if (input.includes("cold")) {
+        output.innerHTML = `
+          <p><strong>Branded:</strong> D-Cold Total</p>
+          <p><strong>Generic:</strong> Cetirizine + Paracetamol</p>
+        `;
+      } else if (input.includes("pain")) {
+        output.innerHTML = `
+          <p><strong>Branded:</strong> Combiflam</p>
+          <p><strong>Generic:</strong> Ibuprofen + Paracetamol</p>
+        `;
+      } else {
+        output.innerHTML = `<p>Coming soon: Our AI will help you find affordable medicine alternatives!</p>`;
+      }
+    }
+  </script>
+</body>
+</html>

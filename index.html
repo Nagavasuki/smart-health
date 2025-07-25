@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Smart Health Companion</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Styles for an even larger search bar */
+    .search-bar {
+      max-width: 700px;
+      margin: 25px auto; 
+      cursor: pointer;
+    }
+    .search-bar input {
+      width: 100%; /* Makes the input field fill the container */
+      box-sizing: border-box; /* Ensures padding doesn't break the layout */
+      padding: 25px 20px;
+      font-size: 20px;
+      text-align: center; 
+      pointer-events: none; 
+    }
+    .location-input {
+      color: #333; 
+    }
+  </style>
+</head>
+<body class="home-body">
+
+  <header class="header-bar">
+    <input type="text" placeholder="📍 Enter your location..." class="location-input" />
+  </header>
+
+  <div class="container">
+    <h1 class="title">Smart Health </h1>
+
+    <div class="search-bar" onclick="window.location.href='search.html'">
+      <input type="text" placeholder="🔍Search hospitals or symptoms..." disabled /> 
+    </div>
+
+    <div class="image-tabs">
+      <a href="labs.html" class="image-button">
+        <img src="labs.png" class="tab-image" alt="Labs" />
+        <p>Labs</p>
+      </a>
+      <a href="medicines.html" class="image-button">
+        <img src="medicines.png" class="tab-image" alt="Medicines" />
+        <p>Medicines</p>
+      </a>
+      <a href="vaccines.html" class="image-button">
+        <img src="vaccines.png" class="tab-image" alt="Vaccines" />
+        <p>Vaccines</p>
+      </a>
+      <a href="campaigns.html" class="image-button">
+        <img src="campaigns.png" class="tab-image" alt="Health Campaigns" />
+        <p>Health Campaigns</p>
+      </a>
+    </div>
+  </div>
+
+</body>
+</html>

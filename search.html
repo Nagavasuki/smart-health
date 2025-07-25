@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search - Smart Health Companion</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #ffffff;
+      color: #333;
+    }
+    a {
+      text-decoration: none;
+    }
+    .search-container {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+    .search-header {
+      display: flex;
+      align-items: center;
+      padding: 10px 15px;
+      background-color: #ffffff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .back-button {
+      font-size: 24px;
+      color: #007bff;
+      text-decoration: none;
+      margin-right: 15px;
+      font-weight: bold;
+    }
+    .search-input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+    .search-input {
+      width: 100%;
+      padding: 10px 10px 10px 35px; /* Space for icon */
+      font-size: 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      background-color: #f8f9fa;
+      outline: none;
+    }
+    .search-input:focus {
+      border-color: #007bff;
+    }
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #aaa;
+    }
+    .suggestions-area {
+      padding: 20px;
+      overflow-y: auto;
+    }
+    h3 {
+      color: #555;
+      font-weight: 600;
+      margin-top: 20px;
+      margin-bottom: 15px;
+    }
+    .suggestion-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .chip {
+      padding: 8px 16px;
+      background-color: #e7f3ff;
+      border-radius: 20px;
+      color: #007bff;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    .chip:hover {
+      background-color: #d0e7ff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="search-container">
+    <header class="search-header">
+      <a href="index.html" class="back-button">&larr;</a>
+      <div class="search-input-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" placeholder="Search hospitals or symptoms..." oninput="filterSuggestions(this.value)">
+      </div>
+    </header>
+
+    <main class="suggestions-area">
+      <h3>Symptoms</h3>
+      <div class="suggestion-box">
+        <div class="chip">Fever</div>
+        <div class="chip">Cold</div>
+        <div class="chip">Cough</div>
+        <div class="chip">Period</div>
+        <div class="chip">Pregnancy</div>
+        <div class="chip">Skin Care</div>
+      </div>
+
+      <h3>Hospitals</h3>
+      <div class="suggestion-box">
+        <a href="hospital_a.html"><div class="chip">Hospital A</div></a>
+        <a href="hospital_b.html"><div class="chip">Hospital B</div></a>
+        <a href="hospital_c.html"><div class="chip">Hospital C</div></a>
+        <a href="hospital_x.html"><div class="chip">Hospital X</div></a>
+        <a href="hospital_y.html"><div class="chip">Hospital Y</div></a>
+        <a href="hospital_z.html"><div class="chip">Hospital Z</div></a>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function filterSuggestions(value) {
+      const lowercasedValue = value.toLowerCase();
+      const suggestionBoxes = document.querySelectorAll(".suggestion-box");
+      
+      suggestionBoxes.forEach(box => {
+        const items = box.children;
+        for (let item of items) {
+          const itemText = item.textContent.toLowerCase();
+          if (itemText.includes(lowercasedValue)) {
+            item.style.display = "inline-block";
+          } else {
+            item.style.display = "none";
+          }
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

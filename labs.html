@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Lab Tests - Smart Health Companion</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      background-color: #f8f9fa;
+      color: #333;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
+    .container {
+        padding-bottom: 40px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      padding: 0 15px;
+    }
+    .back-button {
+      font-size: 24px;
+      color: #007bff;
+      text-decoration: none;
+      margin-right: 15px;
+      font-weight: bold;
+    }
+    .search-input-lab {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 20px 0;
+      font-size: 16px;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+    .suggestion-box {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+    .chip {
+      background-color: #e7f3ff;
+      color: #007bff;
+      padding: 10px 18px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.2s, transform 0.2s;
+    }
+    .chip:hover {
+      background-color: #d0e7ff;
+      transform: translateY(-2px);
+    }
+
+    /* Styles for Hospital List */
+    .hospital-list-container {
+        margin-top: 20px;
+    }
+    .hospital-card {
+        background-color: #ffffff;
+        border-radius: 10px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    }
+    .hospital-card h3 {
+        margin: 0 0 10px 0;
+        color: #1a3b5d;
+    }
+    .hospital-details {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+    .price {
+        font-weight: bold;
+        color: #28a745;
+    }
+    .book-btn {
+        width: 100%;
+        background-color: #007bff;
+        color: white;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        margin-top: 15px;
+    }
+    
+    /* Styles for Booking Form and Confirmation */
+    .form-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+    }
+    .form-input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 20px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+    .submit-btn {
+        width: 100%;
+        background-color: #28a745;
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 18px;
+        cursor: pointer;
+    }
+    .confirmation-message {
+        text-align: center;
+        padding: 40px 20px;
+        background-color: #e8f5e9;
+        border-radius: 10px;
+    }
+    .confirmation-message h2 {
+        color: #2e7d32;
+        margin-top: 0;
+    }
+    .confirmation-message p {
+        font-size: 16px;
+        line-height: 1.6;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- View 1: Test Selection -->
+    <div id="test-selection-view">
+        <div class="header">
+            <a href="index.html" class="back-button">&larr;</a>
+            <h1>Book a Lab Test</h1>
+        </div>
+        <input 
+            type="text" 
+            id="test-search" 
+            class="search-input-lab" 
+            oninput="filterTests()" 
+            placeholder="Search for a test, e.g., 'Blood Test'"
+        />
+        <div id="test-suggestions" class="suggestion-box">
+            <button class="chip" onclick="showHospitalsForTest('Blood Test')">Blood Test</button>
+            <button class="chip" onclick="showHospitalsForTest('Urine Test')">Urine Test</button>
+            <button class="chip" onclick="showHospitalsForTest('X-Ray')">X-Ray</button>
+            <button class="chip" onclick="showHospitalsForTest('MRI Scan')">MRI Scan</button>
+            <button class="chip" onclick="showHospitalsForTest('CT Scan')">CT Scan</button>
+            <button class="chip" onclick="showHospitalsForTest('ECG')">ECG</button>
+        </div>
+    </div>
+
+    <!-- View 2: Hospital List -->
+    <div id="hospital-list-view" style="display: none;">
+        <div class="header">
+            <a href="#" class="back-button" onclick="showView('test-selection-view')">&larr;</a>
+            <h1 id="hospital-list-title"></h1>
+        </div>
+        <div id="hospital-list-container" class="hospital-list-container"></div>
+    </div>
+
+    <!-- View 3: Booking Form -->
+    <div id="booking-form-view" style="display: none;">
+        <div class="header">
+            <a href="#" class="back-button" onclick="showView('hospital-list-view')">&larr;</a>
+            <h1 id="booking-form-title"></h1>
+        </div>
+        <div class="hospital-card">
+            <form id="booking-form">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input type="text" id="fullName" class="form-input" required>
+
+                <label for="phone" class="form-label">Phone Number</label>
+                <input type="tel" id="phone" class="form-input" required>
+
+                <label for="age" class="form-label">Age</label>
+                <input type="number" id="age" class="form-input" required>
+
+                <label for="healthIssue" class="form-label">Health Issue</label>
+                <input type="text" id="healthIssue" class="form-input">
+
+                <input type="hidden" id="hospitalNameInput">
+                <input type="hidden" id="waitTimeInput">
+                <button type="submit" class="submit-btn">Confirm Appointment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View 4: Confirmation -->
+    <div id="confirmation-view" style="display: none;">
+         <div class="header">
+            <a href="index.html" class="back-button">&larr;</a>
+            <h1>Booking Confirmed</h1>
+        </div>
+        <div class="confirmation-message" id="confirmation-content">
+            <!-- Content injected by JS -->
+        </div>
+    </div>
+  </div>
+
+  <script>
+    const hospitalNames = ["A Hospital", "B Hospital", "C Hospital", "X Hospital", "Y Hospital", "Z Hospital"];
+
+    // Function to switch between views
+    function showView(viewId) {
+        document.getElementById('test-selection-view').style.display = 'none';
+        document.getElementById('hospital-list-view').style.display = 'none';
+        document.getElementById('booking-form-view').style.display = 'none';
+        document.getElementById('confirmation-view').style.display = 'none';
+        
+        document.getElementById(viewId).style.display = 'block';
+    }
+
+    // Function to show hospitals for a selected test
+    function showHospitalsForTest(testName) {
+        document.getElementById('hospital-list-title').innerText = `Hospitals for ${testName}`;
+        const container = document.getElementById('hospital-list-container');
+        container.innerHTML = ''; // Clear previous list
+
+        hospitalNames.forEach(name => {
+            const price = `₹${Math.floor(Math.random() * (2000 - 300 + 1)) + 300}`;
+            const opdLoad = Math.floor(Math.random() * 50) + 10;
+            const waitTime = Math.floor(opdLoad * 1.5);
+
+            const card = `
+                <div class="hospital-card">
+                    <h3>${name}</h3>
+                    <div class="hospital-details">
+                        <span>Test Available: <strong style="color: green;">Yes</strong></span>
+                        <span class="price">Price: ${price}</span>
+                        <span>OPD Load: ${opdLoad} patients</span>
+                        <span>Wait Time: Approx. ${waitTime} mins</span>
+                    </div>
+                    <button class="book-btn" onclick="showBookingForm('${name}', ${waitTime})">Book Your Appointment</button>
+                </div>
+            `;
+            container.innerHTML += card;
+        });
+        showView('hospital-list-view');
+    }
+
+    // Function to show the booking form for a hospital
+    function showBookingForm(hospitalName, waitTime) {
+        document.getElementById('booking-form-title').innerText = `Book at ${hospitalName}`;
+        document.getElementById('hospitalNameInput').value = hospitalName;
+        document.getElementById('waitTimeInput').value = waitTime;
+        showView('booking-form-view');
+    }
+
+    // Handle form submission
+    document.getElementById('booking-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        const hospitalName = document.getElementById('hospitalNameInput').value;
+        
+        // Generate booking code and time
+        const bookingCode = 'LAB-' + Math.floor(1000 + Math.random() * 9000);
+        const waitTimeMinutes = parseInt(document.getElementById('waitTimeInput').value);
+        const now = new Date();
+        const startTime = new Date(now.getTime() + waitTimeMinutes * 60000);
+        const endTime = new Date(startTime.getTime() + 30 * 60000); // 30-minute window
+
+        const formatTime = (date) => {
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12;
+            hours = hours ? hours : 12;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            return `${hours}:${minutes} ${ampm}`;
+        };
+
+        const estimatedTime = `${formatTime(startTime)} - ${formatTime(endTime)}`;
+
+        // Display confirmation
+        const confirmationContent = document.getElementById('confirmation-content');
+        confirmationContent.innerHTML = `
+            <h2>Your Lab Appointment is Confirmed at ${hospitalName}!</h2>
+            <p><strong>Booking Code:</strong> <strong style="color: #0056b3;">${bookingCode}</strong></p>
+            <p><strong>Estimated Time:</strong> ${estimatedTime}</p>
+        `;
+        showView('confirmation-view');
+    });
+
+    // Filter tests in the initial view
+    function filterTests() {
+      const input = document.getElementById('test-search');
+      const filter = input.value.toLowerCase();
+      const suggestions = document.getElementById('test-suggestions');
+      const chips = suggestions.getElementsByTagName('button');
+
+      for (let i = 0; i < chips.length; i++) {
+        let txtValue = chips[i].textContent || chips[i].innerText;
+        if (txtValue.toLowerCase().indexOf(filter) > -1) {
+          chips[i].style.display = "";
+        } else {
+          chips[i].style.display = "none";
+        }
+      }
+    }
+  </script>
+</body>
+</html>
