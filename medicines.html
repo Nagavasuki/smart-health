@@ -1,58 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Medicines - Smart Health Companion</title>
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    .result-box {
-      margin-top: 20px;
-      font-size: 1rem;
-      color: #004080;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Medicines - Smart Health Companion</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f7f9;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            font-size: 28px;
+            color: #007bff;
+            text-decoration: none;
+            margin-right: 15px;
+        }
+        h1 {
+            font-size: 24px;
+            margin: 0;
+            color: #1a3b5d;
+        }
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-input {
+            flex-grow: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+        }
+        .search-button {
+            padding: 15px 20px;
+            font-size: 16px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #results-container {
+            margin-top: 20px;
+        }
+        .medicine-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-left: 5px solid #007bff;
+        }
+        .medicine-card.generic {
+            border-left-color: #28a745;
+        }
+        .medicine-card h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: #1a3b5d;
+        }
+        .medicine-card .tag {
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 12px;
+            color: white;
+            background-color: #28a745;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .medicine-card .tag.branded {
+            background-color: #007bff;
+        }
+        .medicine-card p {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        .medicine-card .price {
+            font-weight: bold;
+            color: #333;
+        }
+        .order-button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            background-color: #ff9f00;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .warning-box {
+            background-color: #fff3cd;
+            border-left: 5px solid #ffc107;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Medicine Finder</h1>
-    
-    <label for="medicine-type">What type of medicine do you want?</label><br />
-    <input type="text" id="medicine-type" placeholder="e.g., fever, cold, etc." />
-    <button onclick="findMedicine()">Find Medicine</button>
+    <div class="container">
+        <header class="header">
+            <a href="index.html" class="back-button">&larr;</a>
+            <h1>Find Medicines</h1>
+        </header>
 
-    <div id="medicine-result" class="result-box"></div>
-  </div>
+        <div class="search-box">
+            <input type="text" id="symptom-input" class="search-input" placeholder="Try 'fever', 'cold', or 'headache'">
+            <button id="search-btn" class="search-button">Search</button>
+        </div>
 
-  <script>
-    function findMedicine() {
-      const input = document.getElementById("medicine-type").value.toLowerCase();
-      const output = document.getElementById("medicine-result");
+        <div id="results-container"></div>
+        <div id="warning-box" class="warning-box"></div>
 
-      if (!input) {
-        output.innerHTML = "<p style='color:red;'>Please enter a medicine type.</p>";
-        return;
-      }
+    </div>
 
-      if (input.includes("fever")) {
-        output.innerHTML = `
-          <p><strong>Branded:</strong> Crocin 650</p>
-          <p><strong>Generic:</strong> Paracetamol 650</p>
-        `;
-      } else if (input.includes("cold")) {
-        output.innerHTML = `
-          <p><strong>Branded:</strong> D-Cold Total</p>
-          <p><strong>Generic:</strong> Cetirizine + Paracetamol</p>
-        `;
-      } else if (input.includes("pain")) {
-        output.innerHTML = `
-          <p><strong>Branded:</strong> Combiflam</p>
-          <p><strong>Generic:</strong> Ibuprofen + Paracetamol</p>
-        `;
-      } else {
-        output.innerHTML = `<p>Coming soon: Our AI will help you find affordable medicine alternatives!</p>`;
-      }
-    }
-  </script>
+    <script>
+        // --- PRE-LOADED MEDICINE DATA (REPLACES THE LIVE AI CALL) ---
+        const medicineDatabase = {
+            "fever": {
+                "medicines": [
+                    { "name": "Paracetamol 500mg", "isGeneric": true, "dosage": "1 tablet every 6-8 hours", "instructions": "Take after food. Do not exceed 4 doses in 24 hours.", "price": "₹15 for 10 tablets" },
+                    { "name": "Dolo 650", "isGeneric": false, "dosage": "1 tablet every 8 hours", "instructions": "Use if fever is high (>101°F).", "price": "₹35 for 15 tablets" },
+                    { "name": "Crocin Advance", "isGeneric": false, "dosage": "1-2 tablets every 6 hours", "instructions": "For mild fever and body pain.", "price": "₹28 for 10 tablets" }
+                ],
+                "overallWarning": "If fever persists for more than 3 days, consult a doctor."
+            },
+            "cold": {
+                "medicines": [
+                    { "name": "Cetirizine 10mg", "isGeneric": true, "dosage": "1 tablet at night", "instructions": "For runny nose and sneezing. May cause drowsiness.", "price": "₹20 for 10 tablets" },
+                    { "name": "Vicks Action 500", "isGeneric": false, "dosage": "1 tablet every 6 hours", "instructions": "Relieves multiple cold symptoms like headache and blocked nose.", "price": "₹45 for 10 tablets" }
+                ],
+                "overallWarning": "If you have a high fever or breathing difficulty with your cold, see a doctor."
+            },
+            "headache": {
+                "medicines": [
+                    { "name": "Ibuprofen 400mg", "isGeneric": true, "dosage": "1 tablet after food", "instructions": "Effective for tension headaches and migraines.", "price": "₹25 for 10 tablets" },
+                    { "name": "Saridon", "isGeneric": false, "dosage": "1 tablet when needed", "instructions": "Fast relief from headaches.", "price": "₹40 for 10 tablets" }
+                ],
+                "overallWarning": "For frequent or severe headaches, medical consultation is necessary."
+            }
+        };
+
+        document.getElementById('search-btn').addEventListener('click', findMedicines);
+
+        function findMedicines() {
+            const symptomInput = document.getElementById('symptom-input').value.toLowerCase().trim();
+            const resultsContainer = document.getElementById('results-container');
+            const warningBox = document.getElementById('warning-box');
+
+            // Reset UI
+            resultsContainer.innerHTML = '';
+            warningBox.style.display = 'none';
+
+            if (!symptomInput) {
+                alert('Please enter a symptom.');
+                return;
+            }
+
+            // Find the data in our pre-loaded database
+            const data = medicineDatabase[symptomInput];
+
+            if (data) {
+                displayResults(data);
+            } else {
+                resultsContainer.innerHTML = `<p class="no-results">Sorry, no pre-loaded data for "${symptomInput}". Try 'fever', 'cold', or 'headache'.</p>`;
+            }
+        }
+
+        function displayResults(data) {
+            const resultsContainer = document.getElementById('results-container');
+            const warningBox = document.getElementById('warning-box');
+
+            if (data.medicines && data.medicines.length > 0) {
+                data.medicines.forEach(med => {
+                    const card = document.createElement('div');
+                    card.className = med.isGeneric ? 'medicine-card generic' : 'medicine-card';
+                    
+                    const tag = med.isGeneric ? '<span class="tag">Generic</span>' : '<span class="tag branded">Branded</span>';
+
+                    card.innerHTML = `
+                        <h2>${med.name} ${tag}</h2>
+                        <p><strong>Dosage:</strong> ${med.dosage}</p>
+                        <p><strong>Usage:</strong> ${med.instructions}</p>
+                        <p class="price"><strong>Price:</strong> ${med.price}</p>
+                        <button class="order-button" onclick="alert('Online ordering feature is coming soon!')">🛒 Order Now</button>
+                    `;
+                    resultsContainer.appendChild(card);
+                });
+            }
+
+            if (data.overallWarning) {
+                warningBox.innerHTML = `⚠️ ${data.overallWarning}`;
+                warningBox.style.display = 'block';
+            }
+        }
+    </script>
 </body>
 </html>
