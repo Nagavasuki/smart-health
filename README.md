@@ -1,43 +1,94 @@
-Aushadha Mitra (Smart Health Companion) 🩺
-"Aushadha Mitra" is a user-friendly, mobile-first web application designed to help users navigate their health needs. It provides a seamless experience for finding hospitals, getting information on medicines, and booking appointments, with an initial focus on Guntur and other major Indian cities.
+# 🩺 Aushadha Mitra (Smart Health Companion)
 
-✨ Key Features
-Interactive Location Selector: The home page features a dynamic location bar that allows users to select their city from a dropdown or type to filter, personalizing the experience.
+**Aushadha Mitra** is a user-friendly, mobile-first web application designed to simplify healthcare access for users across India. Whether it's finding hospitals, booking appointments, or understanding medicines, the app delivers a seamless experience — with an initial focus on **Guntur** and nearby cities.
 
-Intelligent Symptom Search: Users can click on common symptoms (e.g., "Fever," "Joint Pain") to receive an instant, curated list of relevant hospitals. This recommendation is intelligently based on the actual departments and specialists available at each hospital.
+---
 
-Detailed Hospital Profiles: The app includes six unique, detailed pages for local hospitals (Hospital A, B, C, X, Y, Z), each featuring:
+## ✨ Key Features
 
-Live OPD load and estimated wait times.
+### 📍 Interactive Location Selector
+- Dynamic location bar lets users select or type their city to personalize the homepage experience.
 
-Contact details, address, and available departments.
+### 🤒 Intelligent Symptom Search
+- Tap on common symptoms like **Fever**, **Joint Pain**, etc., to instantly view hospitals with relevant departments and specialists.
 
-A full-featured appointment booking system that generates a unique booking code and an estimated time slot upon submission.
+### 🏥 Detailed Hospital Profiles
+Includes 6 unique hospital pages: **Hospital A, B, C, X, Y, Z**, each showing:
+- ✅ Live OPD (Outpatient Department) load
+- ⏱️ Estimated wait times
+- 🏥 Department and contact details
+- 📅 Full appointment booking with:
+  - Unique booking code generation
+  - Estimated time slot
 
-Comprehensive Service Modules:
+### 🧪 Labs Module
+- Multi-step test booking interface
+- Categories like Blood Test, Scan, etc.
+- Displays cost comparison across hospitals
+- Final confirmation with hospital OPD info
 
-Labs: A multi-step interface to find and book lab tests at various hospitals.
+### 💊 Medicines Module
+- Search-based tool for common ailments
+- Shows **generic and branded** medicine options
+- Information includes dosage and pricing
+- *(Coming soon: AI assistant for affordable suggestions)*
 
-Medicines: A search tool with pre-loaded data for common ailments, providing information on generic and branded medicines, dosage, and pricing.
+### 💉 Vaccines & 🩺 Health Campaigns
+- Placeholder pages designed for future expansion
+  - Age-based vaccine recommendation system
+  - Health campaign announcements
 
-Vaccines & Campaigns: Placeholder pages for future expansion of services.
+### 📱 Mobile-First UI
+- Intuitive and clean design
+- Optimized for smartphones and smaller devices
 
-Clean, Mobile-First UI: The entire application is designed with a modern, intuitive interface that is optimized for mobile devices.
+---
 
-🛠️ Technology Stack
-This project is built purely with front-end technologies, making it lightweight and easy to run anywhere.
+## 🛠️ Tech Stack
 
-HTML5: For the structure and content.
+This is a **pure front-end application**, fully functional without backend or frameworks.
 
-CSS3: For all styling and layout.
+- **HTML5** – Structural foundation
+- **CSS3** – Styling and layout
+- **Vanilla JavaScript** – Interactive logic and dynamic content
 
-Vanilla JavaScript: For all client-side logic, including interactivity, DOM manipulation, and dynamic content generation.
+---
 
-🚀 How to Run
-To run this project on your local machine, follow these steps:
+## 🚀 How to Run Locally
 
-Download the Project: Download all the project files (.html, .jpg, .png, etc.) and ensure they are all in the same folder.
+1. **Download the Project:**
+   - Get all files (`.html`, `.css`, `.js`, images) into one folder.
 
-Open in Browser: Open the index.html file in any modern web browser (such as Google Chrome, Firefox, or Microsoft Edge).
+2. **Open in Browser:**
+   - Open `index.html` in any modern browser like Chrome, Firefox, or Edge.
 
-Explore: The application is fully self-contained and will run directly in your browser without needing a server.
+3. **Explore the App:**
+   - Fully self-contained. No server or installation needed.
+
+---
+
+## 👨‍💻 Team & Contributions
+
+### 🧠 Naga Vasuki – Core Developer & Feature Integrator
+- Built the **entire working prototype** including:
+  - Hospital module
+  - Lab booking logic
+  - Medicine suggestion system
+  - Symptom-based navigation
+- Wrote complete HTML, JavaScript, and initial CSS to make everything functional.
+- Focused on **logic and structure**, with basic CSS for readability.
+
+### 🎨 Pushpa – UI/UX Design Lead
+- Took over the **design and styling** work in later stages.
+- Responsible for mobile-friendly layout and polished user experience.
+
+### 📋 Other Contributors
+- An earlier UI/UX designer was assigned but couldn’t complete the design. Pushpa finalized the UI/UX components.
+
+---
+
+## 🗒️ Note from the Developer
+
+> This prototype's entire **functionality and working logic** was developed from scratch by me (Naga Vasuki).  
+> UI/UX design was a secondary task since it was assigned to a teammate. However, I ensured all components worked properly and handled styling basics until the designer took over.
+
